@@ -1,0 +1,2013 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <!-- logo website -->
+  <link rel="icon" href="/Assets/Images/paimon.jpg" style="border-radius: 20px;" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=MuseoModerno:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <link rel="stylesheet" href="./Lib/Css/Style.css">
+  <title>AnimeHub</title>
+</head>
+
+<body class="bg-gray-50 dark:bg-black transition-colors duration-300 min-h-screen"
+  x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)}"
+  x-init="$watch('darkMode', value => { document.documentElement.classList.toggle('dark', value); localStorage.setItem('darkMode', value);})"
+  :class="{'dark': darkMode}">
+  <nav x-data="{ isOpen: false, userDropdownOpen: false }" @keydown.escape="isOpen = false; userDropdownOpen = false"
+    class="bg-transparent dark:bg-transparent backdrop-blur-lg shadow-md fixed top-0 left-0 right-0 z-50 transition-colors duration-300">
+    <div class="container px-6 py-4 mx-auto">
+      <div class="flex items-center justify-between">
+        <!-- Logo and Nav Links -->
+        <div class="flex items-center space-x-8">
+          <!-- Logo -->
+          <a href="./Index.html" class="flex items-center">
+            <img src="/Assets/Images/paimon.jpg" class="w-10 h-10 rounded-full object-cover alt="">
+            <span class=" ml-2 text-xl font-bold text-purple-600 dark:text-purple-400">AnimeHub</span>
+          </a>
+          <!-- Nav Links -->
+          <div class="hidden md:flex space-x-6">
+            <!-- Popular Anime -->
+            <a href="./Popular.html"
+              class="flex items-center text-white dark:text-gray-200 hover:text-purple-600 dark:hover:text-purple-400 transition-colors font-medium">
+              Popular
+            </a>
+            <!-- Seasonal Anime -->
+            <a href="./Movies.html"
+              class="flex items-center text-white dark:text-gray-200 hover:text-purple-600 dark:hover:text-purple-400 transition-colors font-medium">
+              Movies
+            </a>
+            <!-- Genres -->
+            <div x-data="{ open: false }" class="relative">
+              <button @click="open = !open" aria-haspopup="true" :aria-expanded="open"
+                class="flex items-center text-white dark:text-gray-200 hover:text-purple-600 dark:hover:text-purple-400 transition-colors font-medium">
+                Genres
+                <svg class="w-4 h-4 ml-1 transition-transform duration-200" :class="{'transform rotate-180': open}"
+                  fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <!-- Genres Dropdown -->
+              <div x-show="open" @click.away="open = false" x-cloak
+                class="absolute z-20 w-48 py-2 mt-2 bg-white rounded-md shadow-lg dark:bg-gray-800 ring-1 ring-black ring-opacity-5">
+                <a href="#"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-purple-50 dark:text-gray-200 dark:hover:bg-gray-700">Action</a>
+                <a href="#"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-purple-50 dark:text-gray-200 dark:hover:bg-gray-700">Adventure</a>
+                <a href="#"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-purple-50 dark:text-gray-200 dark:hover:bg-gray-700">Comedy</a>
+                <a href="#"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-purple-50 dark:text-gray-200 dark:hover:bg-gray-700">Drama</a>
+                <a href="#"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-purple-50 dark:text-gray-200 dark:hover:bg-gray-700">Fantasy</a>
+                <a href="#"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-purple-50 dark:text-gray-200 dark:hover:bg-gray-700">Romance</a>
+                <a href="#"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-purple-50 dark:text-gray-200 dark:hover:bg-gray-700">Sci-Fi</a>
+                <a href="#"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-purple-50 dark:text-gray-200 dark:hover:bg-gray-700">See
+                  All...</a>
+              </div>
+            </div>
+            <!-- Manga -->
+            <a href="#"
+              class="flex items-center text-white dark:text-gray-200 hover:text-purple-600 dark:hover:text-purple-400 transition-colors font-medium">
+              Manga
+            </a>
+          </div>
+        </div>
+        <!-- Search Bar (Center) -->
+        <div class="flex-1 max-w-xl mx-4 hidden md:block">
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+              <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+            <input
+              class="search-input w-full py-2 pl-10 pr-4 text-gray-700 bg-gray-100 rounded-lg dark:bg-gray-700 dark:text-gray-300 focus:outline-none focus:bg-white focus:dark:bg-gray-600 font-medium"
+              type="text" placeholder="Search anime...">
+          </div>
+        </div>
+        <!-- Right Side (User & Cart) -->
+        <div class="flex items-center space-x-4">
+          <!-- Dark/Light Mode Toggle -->
+          <button @click="darkMode = !darkMode"
+            class="dark-mode-toggle relative h-10 w-10 rounded-full bg-gray-200/80 dark:bg-gray-700/80 transition-colors duration-300 focus:outline-none backdrop-blur-sm">
+            <!-- Moon icon (shown in light mode) -->
+            <svg x-show="!darkMode" xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 text-gray-700 absolute inset-0 m-auto" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+            <!-- Sun icon (shown in dark mode) -->
+            <svg x-show="darkMode" xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 text-gray-300 absolute inset-0 m-auto" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          </button>
+          <!-- Mobile Search Button -->
+          <button @click="isOpen = !isOpen" aria-label="Search" aria-expanded="isOpen"
+            class="md:hidden text-gray-500 hover:text-purple-600 dark:hover:text-purple-400 focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </button>
+          <!-- User Dropdown -->
+          <div class="relative" x-data="{ userDropdownOpen: false, showSignInModal: false }">
+            <!-- Dropdown Trigger Button -->
+            <button @click="userDropdownOpen = !userDropdownOpen" aria-haspopup="true" :aria-expanded="userDropdownOpen"
+              class="flex items-center space-x-2 focus:outline-none">
+              <div class="w-8 h-8 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-600">
+                <svg class="w-full h-full text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M12 4a4 4 0 014 4 4 4 0 01-4 4 4 4 0 01-4-4 4 4 0 014-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4z">
+                  </path>
+                </svg>
+              </div>
+              <span class="hidden md:inline text-gray-700 dark:text-gray-200 font-medium">Account</span>
+            </button>
+
+            <!-- Dropdown Menu -->
+            <div x-show="userDropdownOpen" @click.away="userDropdownOpen = false" x-cloak
+              x-transition:enter="transition ease-out duration-100"
+              x-transition:enter-start="transform opacity-0 scale-95"
+              x-transition:enter-end="transform opacity-100 scale-100"
+              x-transition:leave="transition ease-in duration-75"
+              x-transition:leave-start="transform opacity-100 scale-100"
+              x-transition:leave-end="transform opacity-0 scale-95"
+              class="absolute right-0 z-10 w-48 mt-2 origin-top-right bg-white rounded-md shadow-lg dark:bg-gray-800 ring-1 ring-black ring-opacity-5">
+              <div class="py-1" role="menu" aria-orientation="vertical">
+                <a href="#"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-purple-50 dark:text-gray-200 dark:hover:bg-gray-700"
+                  role="menuitem">Your Profile</a>
+
+                <a href="#" @click.prevent="showSignInModal = true; userDropdownOpen = false"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-purple-50 dark:text-gray-200 dark:hover:bg-gray-700"
+                  role="menuitem">Sign in</a>
+              </div>
+            </div>
+            <!-- Modal Container -->
+            <div x-show="showSignInModal" x-transition:enter="transition ease-out duration-300"
+              x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+              x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
+              x-transition:leave-end="opacity-0"
+              class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50"
+              @click.away="showSignInModal = false" @keydown.escape.window="showSignInModal = false">
+              <!-- Modal Content - Perfectly Centered -->
+              <div class="relative w-full max-w-md mx-auto" @click.stop>
+                <div class="bg-white mt-96 rounded-lg shadow-xl dark:bg-gray-800 overflow-hidden">
+                  <!-- Modal Header -->
+                  <div class="flex justify-between items-center p-6 border-b dark:border-gray-700">
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Sign In</h2>
+                    <button @click="showSignInModal = false"
+                      class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                      </svg>
+                    </button>
+                  </div>
+                  <!-- Modal Body -->
+                  <div class="p-6">
+                    <form class="space-y-6">
+                      <!-- Email Field -->
+                      <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          Email
+                        </label>
+                        <input id="email" type="email" required
+                          class="w-full px-4 py-2 text-gray-700 bg-gray-100 border-transparent rounded-lg dark:bg-gray-700 dark:text-gray-300 focus:border-purple-500 focus:bg-white focus:ring-0">
+                      </div>
+                      <!-- Password Field -->
+                      <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          Password
+                        </label>
+                        <input id="password" type="password" required
+                          class="w-full px-4 py-2 text-gray-700 bg-gray-100 border-transparent rounded-lg dark:bg-gray-700 dark:text-gray-300 focus:border-purple-500 focus:bg-white focus:ring-0">
+                      </div>
+                      <!-- Remember Me & Forgot Password -->
+                      <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                          <input id="remember-me" type="checkbox"
+                            class="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-800">
+                          <label for="remember-me" class="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                            Remember me
+                          </label>
+                        </div>
+                        <a href="#" class="text-sm text-purple-600 hover:text-purple-500 dark:text-purple-400">
+                          Forgot password?
+                        </a>
+                      </div>
+                      <!-- Submit Button -->
+                      <button type="submit"
+                        class="w-full px-4 py-2 text-white bg-purple-600 rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 dark:bg-purple-500 dark:hover:bg-purple-600">
+                        Sign In
+                      </button>
+                    </form>
+                  </div>
+                  <!-- Modal Footer -->
+                  <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700 text-center">
+                    <p class="text-sm text-gray-600 dark:text-gray-300">
+                      Don't have an account?
+                      <a href="#" class="font-medium text-purple-600 hover:text-purple-500 dark:text-purple-400">
+                        Sign up
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Mobile Menu Button -->
+          <button @click="isOpen = !isOpen" aria-label="Menu" aria-expanded="isOpen"
+            class="md:hidden text-gray-500 hover:text-purple-600 dark:hover:text-purple-400 focus:outline-none">
+            <svg x-show="!isOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+            <svg x-show="isOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <!-- Mobile Search (shown when isOpen is true) -->
+      <div x-show="isOpen" x-cloak class="mt-4 md:hidden">
+        <div class="relative">
+          <input
+            class="w-full py-2 pl-10 pr-4 text-gray-700 bg-gray-100 rounded-lg dark:bg-gray-700 dark:text-gray-300 focus:outline-none focus:bg-white focus:dark:bg-gray-600 font-medium"
+            type="text" placeholder="Search anime...">
+          <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              </path>
+            </svg>
+          </span>
+        </div>
+      </div>
+      <!-- Mobile Menu (shown when isOpen is true) -->
+      <div x-show="isOpen" x-cloak class="mt-4 md:hidden">
+        <div class="flex flex-col space-y-2">
+          <a href="./Index.html"
+            class="px-2 py-1 text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 font-medium">Home</a>
+          <a href="./Popular.html"
+            class="px-2 py-1 text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 font-medium">Popular</a>
+          <a href="./Movies.html"
+            class="px-2 py-1 text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 font-medium">Movies</a>
+          <a href="#"
+            class="px-2 py-1 text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 font-medium">Genres</a>
+          <a href="#"
+            class="px-2 py-1 text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 font-medium">Manga</a>
+          <a href="#"
+            class="px-2 py-1 text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 font-medium">News</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <section class="relative overflow-hidden w-full h-[500px] sm:h-[600px] md:h-[730px]" id="hero">
+    <div class="relative w-full h-full" id="sliderContainer">
+      <!-- Slide 1 -->
+
+      <div class="slide absolute inset-0 opacity-100 transition-opacity duration-1000">
+        <img src="/Assets/Images/slider_1.jpg" class="w-full h-full object-cover" alt="Sword of the Demon Hunter">
+        <div class="absolute inset-0 bg-gradient-to-r from-black/90 to-transparent"></div>
+        <div
+          class="absolute bg-black/50 bottom-10 left-4 p-6 sm:left-6 md:left-10 text-white max-w-xs sm:max-w-sm md:max-w-2xl">
+          <span class="text-red-500 font-bold text-sm sm:text-base md:text-lg">#1 spotlight</span>
+          <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mt-1 sm:mt-2">Sword of the Demon Hunter:</h2>
+          <h3 class="text-xl sm:text-2xl md:text-3xl font-semibold text-red-400">Kijin Qentosho</h3>
+          <div class=" p-3 sm:p-4 rounded-lg mt-2 sm:mt-4">
+            <ul class="space-y-1 text-gray-200">
+              <li class="flex items-center text-xs sm:text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-caret-right-fill me-2" viewBox="0 0 16 16">
+                  <path
+                    d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                </svg>
+                <span>TV </span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-clock-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
+                </svg>
+                <span class="font-semibold">24mn</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-calendar-event-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2m-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5" />
+                </svg>
+                <span class="text-md">May 20, 2025 </span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+                  class="bi bi-badge-hd-fill mx-2 text-purple-600 font-bold" viewBox="0 0 16 16">
+                  <path d="M10.53 5.968h-.843v4.06h.843c1.117 0 1.622-.667 1.622-2.02 0-1.354-.51-2.04-1.622-2.04" />
+                  <path
+                    d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm5.396 3.001V11H6.209V8.43H3.687V11H2.5V5.001h1.187v2.44h2.522V5h1.187zM8.5 11V5.001h2.188c1.824 0 2.685 1.09 2.685 2.984C13.373 9.893 12.5 11 10.69 11z" />
+                </svg>
+
+                <div
+                  class="hd bg-cyan-400 flex items-centertext-white px-2 py-1 rounded-ss-md rounded-es-md text-xs sm:text-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-badge-cc-fill mx-2" viewBox="0 0 16 16">
+                    <path
+                      d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm3.027 4.002c-.83 0-1.319.642-1.319 1.753v.743c0 1.107.48 1.727 1.319 1.727.69 0 1.138-.435 1.186-1.05H7.36v.114c-.057 1.147-1.028 1.938-2.342 1.938-1.613 0-2.518-1.028-2.518-2.729v-.747C2.5 6.051 3.414 5 5.018 5c1.318 0 2.29.813 2.342 2v.11H6.213c-.048-.638-.505-1.108-1.186-1.108m6.14 0c-.831 0-1.319.642-1.319 1.753v.743c0 1.107.48 1.727 1.318 1.727.69 0 1.139-.435 1.187-1.05H13.5v.114c-.057 1.147-1.028 1.938-2.342 1.938-1.613 0-2.518-1.028-2.518-2.729v-.747c0-1.7.914-2.751 2.518-2.751 1.318 0 2.29.813 2.342 2v.11h-1.147c-.048-.638-.505-1.108-1.187-1.108z" />
+                  </svg>
+                  <span class="font-semibold h-full rounded-md ">10</span>
+                </div>
+                <div
+                  class="hd bg-rose-400 ms-2 flex items-centertext-white px-2 py-1 rounded-ee-md rounded-se-md  text-xs sm:text-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-mic-fill" viewBox="0 0 16 16">
+                    <path d="M5 3a3 3 0 0 1 6 0v5a3 3 0 0 1-6 0z" />
+                    <path
+                      d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5" />
+                  </svg>
+
+                  <span class="font-semibold h-full rounded-md ">6</span>
+                </div>
+              </li>
+              <li class="text-gray-300 mt-2 sm:mt-4 text-xs sm:text-md leading-relaxed line-clamp-2 sm:line-clamp-none">
+                Beryl Qendhout, a self-proclaimed "humble old man", is a sword instructor at his digo in a rural,
+                bookwater village. In his younger years, he dreamed of glory as a master sanerdemon, but those days are
+                long behind him. Out of the blue, he receives a visit.
+              </li>
+            </ul>
+            <div class="flex space-x-2 sm:space-x-4 mt-3 sm:mt-6">
+              <button
+                class="bg-purple-600 hover:bg-purple-700 text-white px-2 sm:px-6 py-1 sm:py-2 rounded-md text-sm sm:text-base font-semibold transition flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-play-circle-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z" />
+                </svg>
+                <span>Watch Now</span>
+
+              </button>
+              <button
+                class="bg-transparent border border-white flex items-center text-white px-3 sm:px-6 py-1 sm:py-2 rounded-md text-sm sm:text-base font-semibold hover:bg-purple-50/10 transition">
+                <span>Details</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                  class="bi bi-chevron-compact-right" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd"
+                    d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Slide 2 -->
+      <div class="slide absolute inset-0 opacity-100 transition-opacity duration-1000">
+        <img src="/Assets/Images/slider_2.jpg" class="w-full h-full object-cover" alt="Sword of the Demon Hunter">
+        <div class="absolute inset-0 bg-gradient-to-r from-black/90 to-transparent"></div>
+        <div
+          class="absolute bg-black/50 bottom-10 left-4 p-6 sm:left-6 md:left-10 text-white max-w-xs sm:max-w-sm md:max-w-2xl">
+          <span class="text-red-500 font-bold text-sm sm:text-base md:text-lg">#2 spotlight</span>
+          <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mt-1 sm:mt-2">The Beginning After the End</h2>
+          <div class=" p-3 sm:p-4 rounded-lg mt-2 sm:mt-4">
+            <ul class="space-y-1 text-gray-200">
+              <li class="flex items-center text-xs sm:text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-caret-right-fill me-2" viewBox="0 0 16 16">
+                  <path
+                    d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                </svg>
+                <span>TV </span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-clock-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
+                </svg>
+                <span class="font-semibold">24mn</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-calendar-event-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2m-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5" />
+                </svg>
+                <span class="text-md">May 20, 2025 </span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+                  class="bi bi-badge-hd-fill mx-2 text-purple-600 font-bold" viewBox="0 0 16 16">
+                  <path d="M10.53 5.968h-.843v4.06h.843c1.117 0 1.622-.667 1.622-2.02 0-1.354-.51-2.04-1.622-2.04" />
+                  <path
+                    d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm5.396 3.001V11H6.209V8.43H3.687V11H2.5V5.001h1.187v2.44h2.522V5h1.187zM8.5 11V5.001h2.188c1.824 0 2.685 1.09 2.685 2.984C13.373 9.893 12.5 11 10.69 11z" />
+                </svg>
+
+                <div
+                  class="hd bg-cyan-400 flex items-centertext-white px-2 py-1 rounded-ss-md rounded-es-md text-xs sm:text-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-badge-cc-fill mx-2" viewBox="0 0 16 16">
+                    <path
+                      d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm3.027 4.002c-.83 0-1.319.642-1.319 1.753v.743c0 1.107.48 1.727 1.319 1.727.69 0 1.138-.435 1.186-1.05H7.36v.114c-.057 1.147-1.028 1.938-2.342 1.938-1.613 0-2.518-1.028-2.518-2.729v-.747C2.5 6.051 3.414 5 5.018 5c1.318 0 2.29.813 2.342 2v.11H6.213c-.048-.638-.505-1.108-1.186-1.108m6.14 0c-.831 0-1.319.642-1.319 1.753v.743c0 1.107.48 1.727 1.318 1.727.69 0 1.139-.435 1.187-1.05H13.5v.114c-.057 1.147-1.028 1.938-2.342 1.938-1.613 0-2.518-1.028-2.518-2.729v-.747c0-1.7.914-2.751 2.518-2.751 1.318 0 2.29.813 2.342 2v.11h-1.147c-.048-.638-.505-1.108-1.187-1.108z" />
+                  </svg>
+                  <span class="font-semibold h-full rounded-md ">10</span>
+                </div>
+                <div
+                  class="hd bg-rose-400 ms-2 flex items-centertext-white px-2 py-1 rounded-ee-md rounded-se-md  text-xs sm:text-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-mic-fill" viewBox="0 0 16 16">
+                    <path d="M5 3a3 3 0 0 1 6 0v5a3 3 0 0 1-6 0z" />
+                    <path
+                      d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5" />
+                  </svg>
+
+                  <span class="font-semibold h-full rounded-md ">6</span>
+                </div>
+              </li>
+              <li class="text-gray-300 mt-2 sm:mt-4 text-xs sm:text-md leading-relaxed line-clamp-2 sm:line-clamp-3">
+                The story follows the strongest king in history, Grey. Although he possesses unparalleled power, wealth,
+                and fame, there is no one who stands by his side…and he trusts no one. One day, Grey suddenly meets his
+                death and is reincarnated as a powerless infant named Arthur in a world of magic. Surrounded by a loving
+                family and companions, Arthur starts to experience joys in this new life that he never knew in his
+                previous one. However, during a journey, his family is attacked by bandits... Thus begins his second
+                life,
+                filled with love and adventure!
+              </li>
+            </ul>
+            <div class="flex space-x-2 sm:space-x-4 mt-3 sm:mt-6">
+              <button
+                class="bg-purple-600 hover:bg-purple-700 text-white px-2 sm:px-6 py-1 sm:py-2 rounded-md text-sm sm:text-base font-semibold transition flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-play-circle-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z" />
+                </svg>
+                <span>Watch Now</span>
+
+              </button>
+              <button
+                class="bg-transparent border border-white flex items-center text-white px-3 sm:px-6 py-1 sm:py-2 rounded-md text-sm sm:text-base font-semibold hover:bg-purple-50/10 transition">
+                <span>Details</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                  class="bi bi-chevron-compact-right" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd"
+                    d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Slide 3 -->
+      <div class="slide absolute inset-0 opacity-100 transition-opacity duration-1000">
+        <img src="/Assets/Images/slider_3.jpg" class="w-full h-full object-cover" alt="Sword of the Demon Hunter">
+        <div class="absolute inset-0 bg-gradient-to-r from-black/90 to-transparent"></div>
+        <div
+          class="absolute bg-black/50 p-6 bottom-10 left-4 sm:left-6 md:left-10 text-white max-w-xs sm:max-w-sm md:max-w-2xl">
+          <span class="text-red-500 font-bold text-sm sm:text-base md:text-lg">#3 spotlight</span>
+          <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mt-1 sm:mt-2">Can a Boy and Girl Friendship Hold Up?
+            (No, It Can't!!)</h2>
+          <h3 class="text-xl sm:text-2xl md:text-3xl font-semibold text-red-400"> (No, It Can't!!)</h3>
+          <div class=" p-3 sm:p-4 rounded-lg mt-2 sm:mt-4">
+            <ul class="space-y-1 text-gray-200">
+              <li class="flex items-center text-xs sm:text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-caret-right-fill me-2" viewBox="0 0 16 16">
+                  <path
+                    d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                </svg>
+                <span>TV </span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-clock-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
+                </svg>
+                <span class="font-semibold">24mn</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-calendar-event-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2m-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5" />
+                </svg>
+                <span class="text-md">May 20, 2025 </span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+                  class="bi bi-badge-hd-fill mx-2 text-purple-600 font-bold" viewBox="0 0 16 16">
+                  <path d="M10.53 5.968h-.843v4.06h.843c1.117 0 1.622-.667 1.622-2.02 0-1.354-.51-2.04-1.622-2.04" />
+                  <path
+                    d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm5.396 3.001V11H6.209V8.43H3.687V11H2.5V5.001h1.187v2.44h2.522V5h1.187zM8.5 11V5.001h2.188c1.824 0 2.685 1.09 2.685 2.984C13.373 9.893 12.5 11 10.69 11z" />
+                </svg>
+
+                <div
+                  class="hd bg-cyan-400 flex items-centertext-white px-2 py-1 rounded-ss-md rounded-es-md text-xs sm:text-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-badge-cc-fill mx-2" viewBox="0 0 16 16">
+                    <path
+                      d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm3.027 4.002c-.83 0-1.319.642-1.319 1.753v.743c0 1.107.48 1.727 1.319 1.727.69 0 1.138-.435 1.186-1.05H7.36v.114c-.057 1.147-1.028 1.938-2.342 1.938-1.613 0-2.518-1.028-2.518-2.729v-.747C2.5 6.051 3.414 5 5.018 5c1.318 0 2.29.813 2.342 2v.11H6.213c-.048-.638-.505-1.108-1.186-1.108m6.14 0c-.831 0-1.319.642-1.319 1.753v.743c0 1.107.48 1.727 1.318 1.727.69 0 1.139-.435 1.187-1.05H13.5v.114c-.057 1.147-1.028 1.938-2.342 1.938-1.613 0-2.518-1.028-2.518-2.729v-.747c0-1.7.914-2.751 2.518-2.751 1.318 0 2.29.813 2.342 2v.11h-1.147c-.048-.638-.505-1.108-1.187-1.108z" />
+                  </svg>
+                  <span class="font-semibold h-full rounded-md ">10</span>
+                </div>
+                <div
+                  class="hd bg-rose-400 ms-2 flex items-centertext-white px-2 py-1 rounded-ee-md rounded-se-md  text-xs sm:text-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-mic-fill" viewBox="0 0 16 16">
+                    <path d="M5 3a3 3 0 0 1 6 0v5a3 3 0 0 1-6 0z" />
+                    <path
+                      d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5" />
+                  </svg>
+
+                  <span class="font-semibold h-full rounded-md ">6</span>
+                </div>
+
+              </li>
+
+              <li class="text-gray-300 mt-2 sm:mt-4 text-xs sm:text-md leading-relaxed line-clamp-2  sm:line-clamp-3">
+                A boy and a girl pledge lifelong friendship in a small town junior high school. The relationship between
+                the two, who are destined to share a common dream, has passed two years without any particular
+                development. Himari Inuzuka, a bubbly girl who has yet to find her first love, and Yuu Natsume, a
+                plant-loving boy who enjoys flowers, still spend their days peacefully as best friends in the gardening
+                club in the second year of high school. "If Yuu can't get married, I have to take responsibility." "I'm
+                having trouble now because after Himari said that, your brother began calling me 'My brother-in-law!'"
+                However, when Yuu reunites with his first crush, the gears of their relationship suddenly go out of
+                sync! Will Himari be able to escape her "ideal friend" now that she has found love?
+              </li>
+            </ul>
+            <div class="flex space-x-2 sm:space-x-4 mt-3 sm:mt-6">
+              <button
+                class="bg-purple-600 hover:bg-purple-700 text-white px-2 sm:px-6 py-1 sm:py-2 rounded-md text-sm sm:text-base font-semibold transition flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-play-circle-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z" />
+                </svg>
+                <span>Watch Now</span>
+
+              </button>
+              <button
+                class="bg-transparent border border-white flex items-center text-white px-3 sm:px-6 py-1 sm:py-2 rounded-md text-sm sm:text-base font-semibold hover:bg-purple-50/10 transition">
+                <span>Details</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                  class="bi bi-chevron-compact-right" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd"
+                    d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Slide 4 -->
+      <div class="slide absolute inset-0 opacity-100 transition-opacity duration-1000">
+        <img src="/Assets/Images/slider_4.jpg" class="w-full h-full object-cover" alt="Sword of the Demon Hunter">
+        <div class="absolute inset-0 bg-gradient-to-r from-black/90 to-transparent"></div>
+        <div
+          class="absolute bg-black/50 bottom-10 p-6 left-4 sm:left-6 md:left-10 text-white max-w-xs sm:max-w-sm md:max-w-2xl">
+          <span class="text-red-500 font-bold text-sm sm:text-base md:text-lg">#4 spotlight</span>
+          <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mt-1 sm:mt-2">Lazarus</h2>
+          <div class=" p-3 sm:p-4 rounded-lg mt-2 sm:mt-4">
+            <ul class="space-y-1 text-gray-200">
+              <li class="flex items-center text-xs sm:text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-caret-right-fill me-2" viewBox="0 0 16 16">
+                  <path
+                    d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                </svg>
+                <span>TV </span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-clock-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
+                </svg>
+                <span class="font-semibold">24mn</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-calendar-event-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2m-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5" />
+                </svg>
+                <span class="text-md">May 20, 2025 </span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+                  class="bi bi-badge-hd-fill mx-2 text-purple-600 font-bold" viewBox="0 0 16 16">
+                  <path d="M10.53 5.968h-.843v4.06h.843c1.117 0 1.622-.667 1.622-2.02 0-1.354-.51-2.04-1.622-2.04" />
+                  <path
+                    d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm5.396 3.001V11H6.209V8.43H3.687V11H2.5V5.001h1.187v2.44h2.522V5h1.187zM8.5 11V5.001h2.188c1.824 0 2.685 1.09 2.685 2.984C13.373 9.893 12.5 11 10.69 11z" />
+                </svg>
+
+                <div
+                  class="hd bg-cyan-400 flex items-centertext-white px-2 py-1 rounded-ss-md rounded-es-md text-xs sm:text-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-badge-cc-fill mx-2" viewBox="0 0 16 16">
+                    <path
+                      d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm3.027 4.002c-.83 0-1.319.642-1.319 1.753v.743c0 1.107.48 1.727 1.319 1.727.69 0 1.138-.435 1.186-1.05H7.36v.114c-.057 1.147-1.028 1.938-2.342 1.938-1.613 0-2.518-1.028-2.518-2.729v-.747C2.5 6.051 3.414 5 5.018 5c1.318 0 2.29.813 2.342 2v.11H6.213c-.048-.638-.505-1.108-1.186-1.108m6.14 0c-.831 0-1.319.642-1.319 1.753v.743c0 1.107.48 1.727 1.318 1.727.69 0 1.139-.435 1.187-1.05H13.5v.114c-.057 1.147-1.028 1.938-2.342 1.938-1.613 0-2.518-1.028-2.518-2.729v-.747c0-1.7.914-2.751 2.518-2.751 1.318 0 2.29.813 2.342 2v.11h-1.147c-.048-.638-.505-1.108-1.187-1.108z" />
+                  </svg>
+                  <span class="font-semibold h-full rounded-md ">10</span>
+                </div>
+                <div
+                  class="hd bg-rose-400 ms-2 flex items-centertext-white px-2 py-1 rounded-ee-md rounded-se-md  text-xs sm:text-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-mic-fill" viewBox="0 0 16 16">
+                    <path d="M5 3a3 3 0 0 1 6 0v5a3 3 0 0 1-6 0z" />
+                    <path
+                      d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5" />
+                  </svg>
+
+                  <span class="font-semibold h-full rounded-md ">6</span>
+                </div>
+              </li>
+
+              <li class="text-gray-300 mt-2 sm:mt-4 text-xs sm:text-md leading-relaxed line-clamp-2 sm:line-clamp-none">
+                The year is 2052—an era of unprecedented peace and prosperity prevails across the globe. The reason for
+                this: mankind has been freed from sickness and pain. Nobel Prize winning neuroscientist Dr. Skinner has
+                developed a miracle cure-all drug with no apparent
+              </li>
+            </ul>
+            <div class="flex space-x-2 sm:space-x-4 mt-3 sm:mt-6">
+              <button
+                class="bg-purple-600 hover:bg-purple-700 text-white px-2 sm:px-6 py-1 sm:py-2 rounded-md text-sm sm:text-base font-semibold transition flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-play-circle-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z" />
+                </svg>
+                <span>Watch Now</span>
+
+              </button>
+              <button
+                class="bg-transparent border border-white flex items-center text-white px-3 sm:px-6 py-1 sm:py-2 rounded-md text-sm sm:text-base font-semibold hover:bg-purple-50/10 transition">
+                <span>Details</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                  class="bi bi-chevron-compact-right" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd"
+                    d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Slide 5 -->
+      <div class="slide absolute inset-0 opacity-100 transition-opacity duration-1000">
+        <img src="/Assets/Images/slider_5.jpg" class="w-full h-full object-cover" alt="Sword of the Demon Hunter">
+        <div class="absolute inset-0 bg-gradient-to-r from-black/90 to-transparent"></div>
+        <div
+          class="absolute bg-black/70 bottom-10  p-6 left-4 sm:left-6 md:left-10 text-white max-w-xs sm:max-w-sm md:max-w-2xl">
+          <span class="text-red-500 font-bold text-sm sm:text-base md:text-lg">#5 spotlight</span>
+          <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mt-1 sm:mt-2">Wind Breaker</h2>
+          <div class=" p-3 sm:p-4 rounded-lg mt-2 sm:mt-4">
+            <ul class="space-y-1 text-gray-200">
+              <li class="flex items-center text-xs sm:text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-caret-right-fill me-2" viewBox="0 0 16 16">
+                  <path
+                    d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                </svg>
+                <span>TV </span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-clock-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
+                </svg>
+                <span class="font-semibold">24mn</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-calendar-event-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2m-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5" />
+                </svg>
+                <span class="text-md">May 20, 2025 </span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+                  class="bi bi-badge-hd-fill mx-2 text-purple-600 font-bold" viewBox="0 0 16 16">
+                  <path d="M10.53 5.968h-.843v4.06h.843c1.117 0 1.622-.667 1.622-2.02 0-1.354-.51-2.04-1.622-2.04" />
+                  <path
+                    d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm5.396 3.001V11H6.209V8.43H3.687V11H2.5V5.001h1.187v2.44h2.522V5h1.187zM8.5 11V5.001h2.188c1.824 0 2.685 1.09 2.685 2.984C13.373 9.893 12.5 11 10.69 11z" />
+                </svg>
+
+                <div
+                  class="hd bg-cyan-400 flex items-centertext-white px-2 py-1 rounded-ss-md rounded-es-md text-xs sm:text-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-badge-cc-fill mx-2" viewBox="0 0 16 16">
+                    <path
+                      d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm3.027 4.002c-.83 0-1.319.642-1.319 1.753v.743c0 1.107.48 1.727 1.319 1.727.69 0 1.138-.435 1.186-1.05H7.36v.114c-.057 1.147-1.028 1.938-2.342 1.938-1.613 0-2.518-1.028-2.518-2.729v-.747C2.5 6.051 3.414 5 5.018 5c1.318 0 2.29.813 2.342 2v.11H6.213c-.048-.638-.505-1.108-1.186-1.108m6.14 0c-.831 0-1.319.642-1.319 1.753v.743c0 1.107.48 1.727 1.318 1.727.69 0 1.139-.435 1.187-1.05H13.5v.114c-.057 1.147-1.028 1.938-2.342 1.938-1.613 0-2.518-1.028-2.518-2.729v-.747c0-1.7.914-2.751 2.518-2.751 1.318 0 2.29.813 2.342 2v.11h-1.147c-.048-.638-.505-1.108-1.187-1.108z" />
+                  </svg>
+                  <span class="font-semibold h-full rounded-md ">10</span>
+                </div>
+                <div
+                  class="hd bg-rose-400 ms-2 flex items-centertext-white px-2 py-1 rounded-ee-md rounded-se-md  text-xs sm:text-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-mic-fill" viewBox="0 0 16 16">
+                    <path d="M5 3a3 3 0 0 1 6 0v5a3 3 0 0 1-6 0z" />
+                    <path
+                      d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5" />
+                  </svg>
+
+                  <span class="font-semibold h-full rounded-md ">6</span>
+                </div>
+              </li>
+
+              <li class="text-gray-300 mt-2 sm:mt-4 text-xs sm:text-md leading-relaxed line-clamp-2 sm:line-clamp-none">
+                The second season of WIND BREAKER. Welcome back to Furin High School, an institution infamous for its
+                population of brawny brutes who solve every conflict with a show of strength.
+              </li>
+            </ul>
+            <div class="flex space-x-2 sm:space-x-4 mt-3 sm:mt-6">
+              <button
+                class="bg-purple-600 hover:bg-purple-700 text-white px-2 sm:px-6 py-1 sm:py-2 rounded-md text-sm sm:text-base font-semibold transition flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-play-circle-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z" />
+                </svg>
+                <span>Watch Now</span>
+
+              </button>
+              <button
+                class="bg-transparent border border-white flex items-center text-white px-3 sm:px-6 py-1 sm:py-2 rounded-md text-sm sm:text-base font-semibold hover:bg-purple-50/10 transition">
+                <span>Details</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                  class="bi bi-chevron-compact-right" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd"
+                    d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide absolute inset-0 opacity-100 transition-opacity duration-1000">
+        <img src="/Assets/Images/slider_6.jpg" class="w-full h-full object-cover md:object-contain"
+          alt="Sword of the Demon Hunter">
+        <div class="absolute inset-0 bg-gradient-to-r from-black/90 to-transparent"></div>
+        <div
+          class="absolute bg-black/50 bottom-10 p-6 left-4 sm:left-6 md:left-10 text-white max-w-xs sm:max-w-sm md:max-w-2xl">
+          <span class="text-purple-400 font-bold text-sm sm:text-base md:text-lg">#6 spotlight</span>
+          <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mt-1 sm:mt-2">From Old Country Bumpkin to Master
+            Swordsman</h2>
+          <div class=" p-3 sm:p-4 rounded-lg mt-2 sm:mt-4">
+            <ul class="space-y-1 text-gray-200">
+              <li class="flex items-center text-xs sm:text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-caret-right-fill me-2" viewBox="0 0 16 16">
+                  <path
+                    d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                </svg>
+                <span>TV </span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-clock-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
+                </svg>
+                <span class="font-semibold">24mn</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-calendar-event-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2m-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5" />
+                </svg>
+                <span class="text-md">May 20, 2025 </span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+                  class="bi bi-badge-hd-fill mx-2 text-purple-600 font-bold" viewBox="0 0 16 16">
+                  <path d="M10.53 5.968h-.843v4.06h.843c1.117 0 1.622-.667 1.622-2.02 0-1.354-.51-2.04-1.622-2.04" />
+                  <path
+                    d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm5.396 3.001V11H6.209V8.43H3.687V11H2.5V5.001h1.187v2.44h2.522V5h1.187zM8.5 11V5.001h2.188c1.824 0 2.685 1.09 2.685 2.984C13.373 9.893 12.5 11 10.69 11z" />
+                </svg>
+
+                <div
+                  class="hd bg-cyan-400 flex items-centertext-white px-2 py-1 rounded-ss-md rounded-es-md text-xs sm:text-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-badge-cc-fill mx-2" viewBox="0 0 16 16">
+                    <path
+                      d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm3.027 4.002c-.83 0-1.319.642-1.319 1.753v.743c0 1.107.48 1.727 1.319 1.727.69 0 1.138-.435 1.186-1.05H7.36v.114c-.057 1.147-1.028 1.938-2.342 1.938-1.613 0-2.518-1.028-2.518-2.729v-.747C2.5 6.051 3.414 5 5.018 5c1.318 0 2.29.813 2.342 2v.11H6.213c-.048-.638-.505-1.108-1.186-1.108m6.14 0c-.831 0-1.319.642-1.319 1.753v.743c0 1.107.48 1.727 1.318 1.727.69 0 1.139-.435 1.187-1.05H13.5v.114c-.057 1.147-1.028 1.938-2.342 1.938-1.613 0-2.518-1.028-2.518-2.729v-.747c0-1.7.914-2.751 2.518-2.751 1.318 0 2.29.813 2.342 2v.11h-1.147c-.048-.638-.505-1.108-1.187-1.108z" />
+                  </svg>
+                  <span class="font-semibold h-full rounded-md ">10</span>
+                </div>
+                <div
+                  class="hd bg-rose-400 ms-2 flex items-centertext-white px-2 py-1 rounded-ee-md rounded-se-md  text-xs sm:text-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-mic-fill" viewBox="0 0 16 16">
+                    <path d="M5 3a3 3 0 0 1 6 0v5a3 3 0 0 1-6 0z" />
+                    <path
+                      d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5" />
+                  </svg>
+
+                  <span class="font-semibold h-full rounded-md ">6</span>
+                </div>
+              </li>
+
+              <li class="text-gray-300 mt-2 sm:mt-4 text-xs sm:text-md leading-relaxed line-clamp-2 sm:line-clamp-none">
+                Beryl Gardinant, a self-proclaimed "humble old man," is a sword instructor at his dojo in a rural,
+                backwater village. In his younger years, he dreamed of glory as a master swordsman, but those days are
+                long behind him. Out of the blue, he receives a visit
+              </li>
+            </ul>
+            <div class="flex space-x-2 sm:space-x-4 mt-3 sm:mt-6">
+              <button
+                class="bg-purple-600 hover:bg-purple-700 text-white px-2 sm:px-6 py-1 sm:py-2 rounded-md text-sm sm:text-base font-semibold transition flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-play-circle-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z" />
+                </svg>
+                <span>Watch Now</span>
+
+              </button>
+              <button
+                class="bg-transparent border border-white flex items-center text-white px-3 sm:px-6 py-1 sm:py-2 rounded-md text-sm sm:text-base font-semibold hover:bg-purple-50/10 transition">
+                <span>Details</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                  class="bi bi-chevron-compact-right" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd"
+                    d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide absolute inset-0 opacity-100 transition-opacity duration-1000">
+        <img src="/Assets/Images/slider_7.jpg" class="w-full h-full object-cover" alt="Sword of the Demon Hunter">
+        <div class="absolute inset-0 bg-gradient-to-r from-black/90 to-transparent"></div>
+        <div
+          class="absolute bg-black/50 bottom-10 p-6 left-4 sm:left-6 md:left-10 text-white max-w-xs sm:max-w-sm md:max-w-2xl">
+          <span class="text-purple-400 font-bold text-sm sm:text-base md:text-lg">#7 spotlight</span>
+          <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mt-1 sm:mt-2">The Brilliant Healer's New Life in the
+            Shadows</h2>
+          <div class=" p-3 sm:p-4 rounded-lg mt-2 sm:mt-4">
+            <ul class="space-y-1 text-gray-200">
+              <li class="flex items-center text-xs sm:text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-caret-right-fill me-2" viewBox="0 0 16 16">
+                  <path
+                    d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                </svg>
+                <span>TV </span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-clock-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
+                </svg>
+                <span class="font-semibold">24mn</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-calendar-event-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2m-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5" />
+                </svg>
+                <span class="text-md">May 20, 2025 </span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+                  class="bi bi-badge-hd-fill mx-2 text-purple-600 font-bold" viewBox="0 0 16 16">
+                  <path d="M10.53 5.968h-.843v4.06h.843c1.117 0 1.622-.667 1.622-2.02 0-1.354-.51-2.04-1.622-2.04" />
+                  <path
+                    d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm5.396 3.001V11H6.209V8.43H3.687V11H2.5V5.001h1.187v2.44h2.522V5h1.187zM8.5 11V5.001h2.188c1.824 0 2.685 1.09 2.685 2.984C13.373 9.893 12.5 11 10.69 11z" />
+                </svg>
+
+                <div
+                  class="hd bg-cyan-400 flex items-centertext-white px-2 py-1 rounded-ss-md rounded-es-md text-xs sm:text-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-badge-cc-fill mx-2" viewBox="0 0 16 16">
+                    <path
+                      d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm3.027 4.002c-.83 0-1.319.642-1.319 1.753v.743c0 1.107.48 1.727 1.319 1.727.69 0 1.138-.435 1.186-1.05H7.36v.114c-.057 1.147-1.028 1.938-2.342 1.938-1.613 0-2.518-1.028-2.518-2.729v-.747C2.5 6.051 3.414 5 5.018 5c1.318 0 2.29.813 2.342 2v.11H6.213c-.048-.638-.505-1.108-1.186-1.108m6.14 0c-.831 0-1.319.642-1.319 1.753v.743c0 1.107.48 1.727 1.318 1.727.69 0 1.139-.435 1.187-1.05H13.5v.114c-.057 1.147-1.028 1.938-2.342 1.938-1.613 0-2.518-1.028-2.518-2.729v-.747c0-1.7.914-2.751 2.518-2.751 1.318 0 2.29.813 2.342 2v.11h-1.147c-.048-.638-.505-1.108-1.187-1.108z" />
+                  </svg>
+                  <span class="font-semibold h-full rounded-md ">10</span>
+                </div>
+                <div
+                  class="hd bg-rose-400 ms-2 flex items-centertext-white px-2 py-1 rounded-ee-md rounded-se-md  text-xs sm:text-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-mic-fill" viewBox="0 0 16 16">
+                    <path d="M5 3a3 3 0 0 1 6 0v5a3 3 0 0 1-6 0z" />
+                    <path
+                      d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5" />
+                  </svg>
+
+                  <span class="font-semibold h-full rounded-md ">6</span>
+                </div>
+              </li>
+
+              <li class="text-gray-300 mt-2 sm:mt-4 text-xs sm:text-md leading-relaxed line-clamp-2 sm:line-clamp-3">
+                Life hasn't been kind to Zenos. He was born in the slums, and his dirt-poor background has denied him
+                almost every opportunity. After an encounter with a healer, he throws himself into studying to become
+                one and finally catches a break when an adventurer invites Zenos into his party. Zenos is thrilled—so
+                thrilled, in fact, that he's willing to put up with his teammates treating him like garbage. They fail
+                to appreciate his talents and ultimately kick him to the curb, claiming he's outlived his usefulness to
+                them. Now bereft of money and out of options, Zenos decides to put his self-taught skills to use
+                elsewhere and opens an underground clinic. Word quickly spreads about the brilliant healer working
+                incredible magic in the city's shadowy underbelly. Even the royal palace is taking notice... Can Zenos
+                buck the odds and carve out a life for himself in a world that's spit in his face? And can he save the
+                lives of the patients who wind up on his doorstep in the process?
+              </li>
+            </ul>
+            <div class="flex space-x-2 sm:space-x-4 mt-3 sm:mt-6">
+              <button
+                class="bg-purple-600 hover:bg-purple-700 text-white px-2 sm:px-6 py-1 sm:py-2 rounded-md text-sm sm:text-base font-semibold transition flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-play-circle-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z" />
+                </svg>
+                <span>Watch Now</span>
+
+              </button>
+              <button
+                class="bg-transparent border border-white flex items-center text-white px-3 sm:px-6 py-1 sm:py-2 rounded-md text-sm sm:text-base font-semibold hover:bg-purple-50/10 transition">
+                <span>Details</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                  class="bi bi-chevron-compact-right" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd"
+                    d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide absolute inset-0 opacity-100 transition-opacity duration-1000">
+        <img src="/Assets/Images/slider_8.jpg" class="w-full h-full object-cover" alt="Sword of the Demon Hunter">
+        <div class="absolute inset-0 bg-gradient-to-r from-black/90 to-transparent"></div>
+        <div
+          class="absolute bg-black/50 bottom-10 p-6 left-4 sm:left-6 md:left-10 text-white max-w-xs sm:max-w-sm md:max-w-2xl">
+          <span class="text-purple-400 font-bold text-sm sm:text-base md:text-lg">#8 spotlight</span>
+          <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mt-1 sm:mt-2">One Piece</h2>
+          <div class=" p-3 sm:p-4 rounded-lg mt-2 sm:mt-4">
+            <ul class="space-y-1 text-gray-200">
+              <li class="flex items-center text-xs sm:text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-caret-right-fill me-2" viewBox="0 0 16 16">
+                  <path
+                    d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                </svg>
+                <span>TV </span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-clock-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
+                </svg>
+                <span class="font-semibold">24mn</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-calendar-event-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2m-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5" />
+                </svg>
+                <span class="text-md">May 20, 2025 </span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+                  class="bi bi-badge-hd-fill mx-2 text-purple-600 font-bold" viewBox="0 0 16 16">
+                  <path d="M10.53 5.968h-.843v4.06h.843c1.117 0 1.622-.667 1.622-2.02 0-1.354-.51-2.04-1.622-2.04" />
+                  <path
+                    d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm5.396 3.001V11H6.209V8.43H3.687V11H2.5V5.001h1.187v2.44h2.522V5h1.187zM8.5 11V5.001h2.188c1.824 0 2.685 1.09 2.685 2.984C13.373 9.893 12.5 11 10.69 11z" />
+                </svg>
+
+                <div
+                  class="hd bg-cyan-400 flex items-centertext-white px-2 py-1 rounded-ss-md rounded-es-md text-xs sm:text-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-badge-cc-fill mx-2" viewBox="0 0 16 16">
+                    <path
+                      d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm3.027 4.002c-.83 0-1.319.642-1.319 1.753v.743c0 1.107.48 1.727 1.319 1.727.69 0 1.138-.435 1.186-1.05H7.36v.114c-.057 1.147-1.028 1.938-2.342 1.938-1.613 0-2.518-1.028-2.518-2.729v-.747C2.5 6.051 3.414 5 5.018 5c1.318 0 2.29.813 2.342 2v.11H6.213c-.048-.638-.505-1.108-1.186-1.108m6.14 0c-.831 0-1.319.642-1.319 1.753v.743c0 1.107.48 1.727 1.318 1.727.69 0 1.139-.435 1.187-1.05H13.5v.114c-.057 1.147-1.028 1.938-2.342 1.938-1.613 0-2.518-1.028-2.518-2.729v-.747c0-1.7.914-2.751 2.518-2.751 1.318 0 2.29.813 2.342 2v.11h-1.147c-.048-.638-.505-1.108-1.187-1.108z" />
+                  </svg>
+                  <span class="font-semibold h-full rounded-md ">10</span>
+                </div>
+                <div
+                  class="hd bg-rose-400 ms-2 flex items-centertext-white px-2 py-1 rounded-ee-md rounded-se-md  text-xs sm:text-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-mic-fill" viewBox="0 0 16 16">
+                    <path d="M5 3a3 3 0 0 1 6 0v5a3 3 0 0 1-6 0z" />
+                    <path
+                      d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5" />
+                  </svg>
+
+                  <span class="font-semibold h-full rounded-md ">6</span>
+                </div>
+
+
+
+
+
+
+              </li>
+
+              <li class="text-gray-300 mt-2 sm:mt-4 text-xs sm:text-md leading-relaxed line-clamp-2 sm:line-clamp-none">
+                Gold Roger was known as the "Pirate King," the strongest and most infamous being to have sailed the
+                Grand Line. The capture and execution of Roger by the World Government brought a change throughout the
+                world. His last words before his death revealed the existence of the greatest treasure in the world, One
+                Piece.
+              </li>
+            </ul>
+            <div class="flex space-x-2 sm:space-x-4 mt-3 sm:mt-6">
+              <button
+                class="bg-purple-600 hover:bg-purple-700 text-white px-2 sm:px-6 py-1 sm:py-2 rounded-md text-sm sm:text-base font-semibold transition flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-play-circle-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z" />
+                </svg>
+                <span>Watch Now</span>
+
+              </button>
+              <button
+                class="bg-transparent border border-white flex items-center text-white px-3 sm:px-6 py-1 sm:py-2 rounded-md text-sm sm:text-base font-semibold hover:bg-purple-50/10 transition">
+                <span>Details</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                  class="bi bi-chevron-compact-right" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd"
+                    d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide absolute inset-0 opacity-100 transition-opacity duration-1000">
+        <img src="/Assets/Images/slider_9.jpg" class="w-full h-full object-cover" alt="Sword of the Demon Hunter">
+        <div class="absolute inset-0 bg-gradient-to-r from-black/90 to-transparent"></div>
+        <div
+          class="absolute bg-black/50 bottom-10 left-4 sm:left-6 md:left-10 text-white max-w-xs sm:max-w-sm md:max-w-2xl p-6">
+          <span class="text-red-500 font-bold text-sm sm:text-base md:text-lg">#9 spotlight</span>
+          <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mt-1 sm:mt-2">The Children of Shiunji Family</h2>
+          <div class=" p-3 sm:p-4 rounded-lg mt-2 sm:mt-4">
+            <ul class="space-y-1 text-gray-200">
+              <li class="flex items-center text-xs sm:text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-caret-right-fill me-2" viewBox="0 0 16 16">
+                  <path
+                    d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                </svg>
+                <span>TV </span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-clock-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
+                </svg>
+                <span class="font-semibold">24mn</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-calendar-event-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2m-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5" />
+                </svg>
+                <span class="text-md">May 20, 2025 </span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+                  class="bi bi-badge-hd-fill mx-2 text-purple-600 font-bold" viewBox="0 0 16 16">
+                  <path d="M10.53 5.968h-.843v4.06h.843c1.117 0 1.622-.667 1.622-2.02 0-1.354-.51-2.04-1.622-2.04" />
+                  <path
+                    d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm5.396 3.001V11H6.209V8.43H3.687V11H2.5V5.001h1.187v2.44h2.522V5h1.187zM8.5 11V5.001h2.188c1.824 0 2.685 1.09 2.685 2.984C13.373 9.893 12.5 11 10.69 11z" />
+                </svg>
+
+                <div
+                  class="hd bg-cyan-400 flex items-centertext-white px-2 py-1 rounded-ss-md rounded-es-md text-xs sm:text-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-badge-cc-fill mx-2" viewBox="0 0 16 16">
+                    <path
+                      d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm3.027 4.002c-.83 0-1.319.642-1.319 1.753v.743c0 1.107.48 1.727 1.319 1.727.69 0 1.138-.435 1.186-1.05H7.36v.114c-.057 1.147-1.028 1.938-2.342 1.938-1.613 0-2.518-1.028-2.518-2.729v-.747C2.5 6.051 3.414 5 5.018 5c1.318 0 2.29.813 2.342 2v.11H6.213c-.048-.638-.505-1.108-1.186-1.108m6.14 0c-.831 0-1.319.642-1.319 1.753v.743c0 1.107.48 1.727 1.318 1.727.69 0 1.139-.435 1.187-1.05H13.5v.114c-.057 1.147-1.028 1.938-2.342 1.938-1.613 0-2.518-1.028-2.518-2.729v-.747c0-1.7.914-2.751 2.518-2.751 1.318 0 2.29.813 2.342 2v.11h-1.147c-.048-.638-.505-1.108-1.187-1.108z" />
+                  </svg>
+                  <span class="font-semibold h-full rounded-md ">10</span>
+                </div>
+                <div
+                  class="hd bg-rose-400 ms-2 flex items-centertext-white px-2 py-1 rounded-ee-md rounded-se-md  text-xs sm:text-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-mic-fill" viewBox="0 0 16 16">
+                    <path d="M5 3a3 3 0 0 1 6 0v5a3 3 0 0 1-6 0z" />
+                    <path
+                      d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5" />
+                  </svg>
+
+                  <span class="font-semibold h-full rounded-md ">6</span>
+                </div>
+
+
+
+
+
+
+              </li>
+
+              <li class="text-gray-300 mt-2 sm:mt-4 text-xs sm:text-md leading-relaxed line-clamp-2 sm:line-clamp-3">
+                The love between brother and sister. The love between man and woman. That which is most forbidden is
+                most unyielding. The two sons and five daughters of the Shiunji family shine like brilliant gems, each
+                with intelligence and beauty in equal measure. And with the pedigree of their wealthy father behind
+                them, how could they not be the talk of the town? Eldest son Arata has spent his life being tossed
+                around by the whims of his colorful sisters, yet a little teasing won't stop him from valuing his family
+                over anything and anyone else
+              </li>
+            </ul>
+            <div class="flex space-x-2 sm:space-x-4 mt-3 sm:mt-6">
+              <button
+                class="bg-purple-600 hover:bg-purple-700 text-white px-2 sm:px-6 py-1 sm:py-2 rounded-md text-sm sm:text-base font-semibold transition flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-play-circle-fill mx-4" viewBox="0 0 16 16">
+                  <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z" />
+                </svg>
+                <span>Watch Now</span>
+
+              </button>
+              <button
+                class="bg-transparent border border-white flex items-center text-white px-3 sm:px-6 py-1 sm:py-2 rounded-md text-sm sm:text-base font-semibold hover:bg-purple-50/10 transition">
+                <span>Details</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                  class="bi bi-chevron-compact-right" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd"
+                    d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- Navigation Dots -->
+    <div class="absolute bottom-4 left-1/2 transform p-1 ms-2 rounded-full bg-black/50 -translate-x-1/2 flex space-x-2">
+      <button
+        class="dot w-2 h-2 sm:w-3 sm:h-3 bg-gray-300 rounded-full focus:outline-none transition-colors duration-300 active-dot bg-purple-500"
+        data-index="0"></button>
+      <button
+        class="dot w-2 h-2 sm:w-3 sm:h-3 bg-gray-300 rounded-full focus:outline-none transition-colors duration-300"
+        data-index="1"></button>
+      <button
+        class="dot w-2 h-2 sm:w-3 sm:h-3 bg-gray-300 rounded-full focus:outline-none transition-colors duration-300"
+        data-index="2"></button>
+      <button
+        class="dot w-2 h-2 sm:w-3 sm:h-3 bg-gray-300 rounded-full focus:outline-none transition-colors duration-300"
+        data-index="3"></button>
+      <button
+        class="dot w-2 h-2 sm:w-3 sm:h-3 bg-gray-300 rounded-full focus:outline-none transition-colors duration-300"
+        data-index="4"></button>
+      <button
+        class="dot w-2 h-2 sm:w-3 sm:h-3 bg-gray-300 rounded-full focus:outline-none transition-colors duration-300"
+        data-index="5"></button>
+      <button
+        class="dot w-2 h-2 sm:w-3 sm:h-3 bg-gray-300 rounded-full focus:outline-none transition-colors duration-300"
+        data-index="6"></button>
+      <button
+        class="dot w-2 h-2 sm:w-3 sm:h-3 bg-gray-300 rounded-full focus:outline-none transition-colors duration-300"
+        data-index="7"></button>
+      <button
+        class="dot w-2 h-2 sm:w-3 sm:h-3 bg-gray-300 rounded-full focus:outline-none transition-colors duration-300"
+        data-index="8"></button>
+    </div>
+  </section>
+  <section class="trending overflow-hidden" id="trending">
+    <!-- trending  -->
+    <div class="container  px-4 py-8 relative">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-200">Trending Anime</h2>
+        <div class="flex space-x-2">
+          <button
+            class="trending-prev bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 p-2 rounded-full transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button
+            class="trending-next bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 p-2 rounded-full transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="relative">
+        <div class="trending-container overflow-x-auto pb-4 scroll-smooth no-scrollbar">
+          <div class="trending-scroll flex space-x-4 md:space-x-6 transition-transform duration-300 w-max">
+            <!-- Anime Card 1 -->
+            <div
+              class="anime-card bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 flex-shrink-0 w-48 sm:w-56 md:w-64 flex">
+              <!-- Left side - Title and number 01 -->
+              <div class="w-10 h-full block text-white text-center flex flex-col justify-between p-2">
+                <h3 class="title text-sm sm:text-base md:text-xl font-bold text-gray-600 dark:text-white">One Piece</h3>
+                <span class="number text-sm sm:text-base md:text-xl font-bold text-purple-600">01</span>
+              </div>
+              <div class="image-trending w-full h-full">
+                <img src="/Assets/Images/Trending01.jpg" alt="One Piece" class="w-full h-full object-cover">
+              </div>
+            </div>
+
+            <!-- Anime Card 2 -->
+            <div
+              class="anime-card bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 flex-shrink-0 w-48 sm:w-56 md:w-64 flex">
+              <div class="w-10 h-full block text-white text-center flex flex-col justify-between p-2">
+                <h3 class="title text-sm sm:text-base md:text-xl font-bold text-gray-600 dark:text-white">The Begining
+                  Aft...</h3>
+                <span class="number text-sm sm:text-base md:text-xl font-bold text-purple-600">02</span>
+              </div>
+              <div class="image-trending w-full h-full">
+                <img src="/Assets/Images/Trending02.jpg" alt="Naruto" class="w-full h-full object-cover">
+              </div>
+            </div>
+
+            <!-- Anime Card 3 -->
+            <div
+              class="anime-card bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 flex-shrink-0 w-48 sm:w-56 md:w-64 flex">
+              <div class="w-10 h-full block text-white text-center flex flex-col justify-between p-2">
+                <h3 class="title text-sm sm:text-base md:text-xl font-bold text-gray-600 dark:text-white">The sword of
+                  Demo...</h3>
+                <span class="number text-sm sm:text-base md:text-xl font-bold text-purple-600">03</span>
+              </div>
+              <div class="image-trending w-full h-full">
+                <img src="/Assets/Images/Trending03.jpg" alt="Attack on Titan" class="w-full h-full object-cover">
+              </div>
+            </div>
+
+            <!-- Anime Card 4 -->
+            <div
+              class="anime-card bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 flex-shrink-0 w-48 sm:w-56 md:w-64 flex">
+              <div class="w-10 h-full block text-white text-center flex flex-col justify-between p-2">
+                <h3 class="title text-sm sm:text-base md:text-xl font-bold text-gray-600 dark:text-white">Naruto</h3>
+                <span class="number text-sm sm:text-base md:text-xl font-bold text-purple-600">04</span>
+              </div>
+              <div class="image-trending w-full h-full">
+                <img src="/Assets/Images/Trending04.jpg" alt="Demon Slayer" class="w-full h-full object-cover">
+              </div>
+            </div>
+
+            <!-- Anime Card 5 -->
+            <div
+              class="anime-card bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 flex-shrink-0 w-48 sm:w-56 md:w-64 flex">
+              <div class="w-10 h-full block text-white text-center flex flex-col justify-between p-2">
+                <h3 class="title text-sm sm:text-base md:text-xl font-bold text-gray-600 dark:text-white">The Unaware
+                  Ateli...</h3>
+                <span class="number text-sm sm:text-base md:text-xl font-bold text-purple-600">05</span>
+              </div>
+              <div class="image-trending w-full h-full">
+                <img src="/Assets/Images/Trending05.jpg" alt="Jujutsu Kaisen" class="w-full h-full object-cover">
+              </div>
+            </div>
+
+            <!-- Anime Card 6 -->
+            <div
+              class="anime-card bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 flex-shrink-0 w-48 sm:w-56 md:w-64 flex">
+              <div class="w-10 h-full block text-white text-center flex flex-col justify-between p-2">
+                <h3 class="title text-sm sm:text-base md:text-xl font-bold text-gray-600 dark:text-white">From old
+                  country...</h3>
+                <span class="number text-sm sm:text-base md:text-xl font-bold text-purple-600">06</span>
+              </div>
+              <div class="image-trending w-full h-full">
+                <img src="/Assets/Images/Trending06.jpg" alt="My Hero Academia" class="w-full h-full object-cover">
+              </div>
+            </div>
+
+            <!-- Anime Card 7 -->
+            <div
+              class="anime-card bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 flex-shrink-0 w-48 sm:w-56 md:w-64 flex">
+              <div class="w-10 h-full block text-white text-center flex flex-col justify-between p-2">
+                <h3 class="title text-sm sm:text-base md:text-xl font-bold text-gray-600 dark:text-white">The children
+                  of sh...</h3>
+                <span class="number text-sm sm:text-base md:text-xl font-bold text-purple-600">07</span>
+              </div>
+              <div class="image-trending w-full h-full">
+                <img src="/Assets/Images/Trending07.jpg" alt="My Hero Academia" class="w-full h-full object-cover">
+              </div>
+            </div>
+
+            <!-- Anime Card 8 -->
+            <div
+              class="anime-card bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 flex-shrink-0 w-48 sm:w-56 md:w-64 flex">
+              <div class="w-10 h-full block text-white text-center flex flex-col justify-between p-2">
+                <h3 class="title text-sm sm:text-base md:text-xl font-bold text-gray-600 dark:text-white">Please put
+                  them...</h3>
+                <span class="number text-sm sm:text-base md:text-xl font-bold text-purple-600">08</span>
+              </div>
+              <div class="image-trending w-full h-full">
+                <img src="/Assets/Images/Trending08.jpg" alt="My Hero Academia" class="w-full h-full object-cover">
+              </div>
+            </div>
+
+            <!-- Anime Card 9 -->
+            <div
+              class="anime-card bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 flex-shrink-0 w-48 sm:w-56 md:w-64 flex">
+              <div class="w-10 h-full block text-white text-center flex flex-col justify-between p-2">
+                <h3 class="title text-sm sm:text-base md:text-xl font-bold text-gray-600 dark:text-white">Wind
+                  Breaker...</h3>
+                <span class="number text-sm sm:text-base md:text-xl font-bold text-purple-600">09</span>
+              </div>
+              <div class="image-trending w-full h-full">
+                <img src="/Assets/Images/Trending09.jpg" alt="My Hero Academia" class="w-full h-full object-cover">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- share  -->
+    <div class="share_to_friend bg-white dark:bg-black rounded-lg shadow-md flex flex-wrap items-center gap-4 p-4">
+      <!-- Onicha Anime Info -->
+      <div class="flex items-center gap-3 min-w-[220px]">
+        <img src="/Assets/Images/onichan.gif" alt="Onicha Anime" class="w-12 h-12 rounded-full object-cover">
+        <div>
+          <h3 class="text-lg font-semibold text-purple-600">Share OnichaAnime</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300">to your friends</p>
+        </div>
+      </div>
+
+      <!-- Total Shares -->
+      <div class="text-center min-w-[80px]">
+        <h3 class="text-lg font-bold text-gray-800 dark:text-purple-600">157k</h3>
+        <p class="text-xs text-gray-500 dark:text-purple-400">Shares</p>
+      </div>
+
+      <!-- Share Buttons -->
+      <div class="flex flex-wrap gap-2 items-center">
+        <!-- Telegram -->
+        <button
+          class="flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-400 text-white text-sm font-semibold hover:opacity-90 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telegram"
+            viewBox="0 0 16 16">
+            <path
+              d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.287 5.906q-1.168.486-4.666 2.01-.567.225-.595.442c-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294q.39.01.868-.32 3.269-2.206 3.374-2.23c.05-.012.12-.026.166.016s.042.12.037.141c-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8 8 0 0 1-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629q.14.092.27.187c.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.4 1.4 0 0 0-.013-.315.34.34 0 0 0-.114-.217.53.53 0 0 0-.31-.093c-.3.005-.763.166-2.984 1.09" />
+          </svg>
+          Share
+        </button>
+
+        <!-- Twitter -->
+        <button
+          class="flex items-center gap-2 px-4 py-2 rounded-full bg-black text-white text-sm font-semibold hover:opacity-90 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-twitter-x"
+            viewBox="0 0 16 16">
+            <path
+              d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z" />
+          </svg>
+          Share
+        </button>
+
+        <!-- Discord -->
+        <button
+          class="flex items-center gap-2 px-4 py-2 rounded-full bg-blue-700 text-white text-sm font-semibold hover:opacity-90 transition">
+
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook"
+            viewBox="0 0 16 16">
+            <path
+              d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951" />
+          </svg>
+          Share
+
+        </button>
+
+        <!-- WhatsApp -->
+        <button
+          class="flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 text-white text-sm font-semibold hover:opacity-90 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-whatsapp"
+            viewBox="0 0 16 16">
+            <path
+              d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232" />
+          </svg>
+          Share
+        </button>
+
+        <!-- Facebook -->
+        <button class=" w-8 h-8  rounded-full bg-purple-500 hover:opacity-90 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+            class="bi bi-discord ms-2 text-white" viewBox="0 0 16 16">
+            <path
+              d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612" />
+          </svg>
+
+        </button>
+      </div>
+    </div>
+    <!-- comments -->
+    <div class="comments w-full px-4 py-8 flex flex-col md:flex-row gap-6">
+      <!-- Left Image -->
+      <div class="toji-img flex-shrink-0 hidden md:block h-[18.9rem]">
+        <img src="/Assets/Images/Toji.gif" alt="Toji" class="w-full h-full object-cover rounded-lg shadow-lg">
+      </div>
+
+      <!-- Right Comment Section -->
+      <div class="comments-side w-full space-y-4">
+        <!-- Top Bar with Buttons and Toggle -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <!-- Buttons -->
+          <div class="flex items-center gap-4 self-end md:self-auto">
+            <button
+              class="text-purple-400 font-semibold border border-purple-400 px-4 py-1 rounded-full hover:bg-purple-500 hover:text-white transition">
+              Newest Comments
+            </button>
+            <button
+              class="text-gray-400 font-semibold px-4 py-1 rounded-full hover:bg-gray-700 hover:text-white transition">
+              Top Comments
+            </button>
+          </div>
+
+          <!-- Toggle -->
+          <div class="flex items-center gap-2">
+            <span class="text-gray-700 font-medium">Show Comments</span>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="toggleComments" value="" class="sr-only peer" checked>
+
+              <div class="w-11 h-6 bg-gray-600 rounded-full peer peer-checked:bg-purple-400 transition"></div>
+              <div
+                class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full peer-checked:translate-x-5 transition-all duration-300">
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Scrollable Comment Cards with Custom Scrollbar -->
+        <div class="w-full h-64 relative">
+          <div class="absolute top-0 left-0 right-0 bottom-0 overflow-x-auto" id="commentSlider">
+            <div class="flex gap-4 h-full items-center px-4 w-max">
+              <!-- Comment Cards (same as before) -->
+              <div
+                class="min-w-[260px] max-w-[280px] h-[15.5rem] rounded-xl bg-[#2a2a2a] p-4 text-white flex flex-col justify-between flex-shrink-0">
+                <div class="space-y-2">
+                  <div class="flex items-center gap-2">
+                    <img src="/Assets/Images/Avartar/user_1.jpg" class="w-8 h-8 rounded-full" alt="">
+                    <div>
+                      <p class="font-semibold">helpme</p>
+                      <p class="text-xs text-gray-400">6 minutes ago</p>
+                    </div>
+                  </div>
+                  <p class="text-sm">this was lowkey pretty gases</p>
+                </div>
+                <p class="text-yellow-400 text-sm flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-file-earmark-text" viewBox="0 0 16 16">
+                    <path
+                      d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5" />
+                    <path
+                      d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
+                  </svg>
+                  O Maidens in Your Savage Sea...
+                </p>
+              </div>
+
+              <!-- Comment Card 2 -->
+              <div
+                class="min-w-[260px] max-w-[280px] h-[15.5rem] rounded-xl bg-[#2a2a2a] p-4 text-white flex flex-col justify-between flex-shrink-0">
+                <div class="space-y-2">
+                  <div class="flex items-center gap-2">
+                    <img src="/Assets/Images/Avartar/user_2.jpg" class="w-8 h-8 rounded-full" alt="">
+
+                    <div>
+                      <p class="font-semibold">Hashibira Inosuke</p>
+                      <p class="text-xs text-gray-400">16 minutes ago</p>
+                    </div>
+                  </div>
+                  <p class="text-sm">Completed 6/11/25 at 1:15 am rating 9.5/10. This was truly a great anime. Hope this
+                    can get a season 2 no matter how long it take.</p>
+                </div>
+                <p class="text-green-400 text-sm flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-file-earmark-text" viewBox="0 0 16 16">
+                    <path
+                      d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5" />
+                    <path
+                      d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
+                  </svg>
+                  Hinamaru Sumo
+                </p>
+              </div>
+
+              <!-- Comment Card 3 -->
+              <div
+                class="min-w-[260px] max-w-[280px] h-[15.5rem] rounded-xl bg-[#2a2a2a] p-4 text-white flex flex-col justify-between flex-shrink-0">
+                <div class="space-y-2">
+                  <div class="flex items-center gap-2">
+                    <img src="/Assets/Images/Avartar/user_3.jpg" class="w-8 h-8 rounded-full" alt="">
+
+                    <div>
+                      <p class="font-semibold">animalover</p>
+                      <p class="text-xs text-gray-400">17 minutes ago</p>
+                    </div>
+                  </div>
+                  <p class="text-sm">yeah ate a romance anime without summer festival, cant happen</p>
+                </div>
+                <p class="text-pink-400 text-sm flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-file-earmark-text" viewBox="0 0 16 16">
+                    <path
+                      d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5" />
+                    <path
+                      d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
+                  </svg>
+                  My Dress-Up Darling
+                </p>
+              </div>
+
+              <!-- Comment Card 4 -->
+              <div
+                class="min-w-[260px] max-w-[280px] h-[15.5rem] rounded-xl bg-[#2a2a2a] p-4 text-white flex flex-col justify-between flex-shrink-0">
+                <div class="space-y-2">
+                  <div class="flex items-center gap-2">
+                    <img src="/Assets/Images/Avartar/user_4.jpg" class="w-8 h-8 rounded-full" alt="">
+                    <div>
+                      <p class="font-semibold">maurian</p>
+                      <p class="text-xs text-gray-400">17 minutes ago</p>
+                    </div>
+                  </div>
+                  <p class="text-sm">No way trained soldiers are getting out smarted by kids ♥</p>
+                </div>
+                <p class="text-blue-400 text-sm flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-file-earmark-text" viewBox="0 0 16 16">
+                    <path
+                      d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5" />
+                    <path
+                      d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
+                  </svg>
+                  Black Lagoon: The Second Bar...
+                </p>
+              </div>
+              <!-- Comment Card 5 -->
+              <div
+                class="min-w-[260px] max-w-[280px] h-[15.5rem] rounded-xl bg-[#2a2a2a] p-4 text-white flex flex-col justify-between flex-shrink-0">
+                <div class="space-y-2">
+                  <div class="flex items-center gap-2">
+                    <img src="/Assets/Images/Avartar/user_5.jpg" class="w-8 h-8 rounded-full" alt="">
+                    <div>
+                      <p class="font-semibold">maurian</p>
+                      <p class="text-xs text-gray-400">17 minutes ago</p>
+                    </div>
+                  </div>
+                  <p class="text-sm">No way trained soldiers are getting out smarted by kids ♥</p>
+                </div>
+                <p class="text-blue-400 text-sm flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-file-earmark-text" viewBox="0 0 16 16">
+                    <path
+                      d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5" />
+                    <path
+                      d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
+                  </svg>
+                  Black Lagoon: The Second Bar...
+                </p>
+              </div>
+              <!-- Comment Card 6 -->
+              <div
+                class="min-w-[260px] max-w-[280px] h-[15.5rem] rounded-xl bg-[#2a2a2a] p-4 text-white flex flex-col justify-between flex-shrink-0">
+                <div class="space-y-2">
+                  <div class="flex items-center gap-2">
+                    <img src="/Assets/Images/Avartar/user_6.jpg" class="w-8 h-8 rounded-full" alt="">
+                    <div>
+                      <p class="font-semibold">maurian</p>
+                      <p class="text-xs text-gray-400">17 minutes ago</p>
+                    </div>
+                  </div>
+                  <p class="text-sm">No way trained soldiers are getting out smarted by kids ♥</p>
+                </div>
+                <p class="text-blue-400 text-sm flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-file-earmark-text" viewBox="0 0 16 16">
+                    <path
+                      d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5" />
+                    <path
+                      d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
+                  </svg>
+                  Black Lagoon: The Second Bar...
+                </p>
+              </div>
+              <!-- Comment Card 7 -->
+              <div
+                class="min-w-[260px] max-w-[280px] h-[15.5rem] rounded-xl bg-[#2a2a2a] p-4 text-white flex flex-col justify-between flex-shrink-0">
+                <div class="space-y-2">
+                  <div class="flex items-center gap-2">
+                    <img src="/Assets/Images/Avartar/user_7.gif" class="w-8 h-8 rounded-full" alt="">
+                    <div>
+                      <p class="font-semibold">maurian</p>
+                      <p class="text-xs text-gray-400">17 minutes ago</p>
+                    </div>
+                  </div>
+                  <p class="text-sm">No way trained soldiers are getting out smarted by kids ♥</p>
+                </div>
+                <p class="text-blue-400 text-sm flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-file-earmark-text" viewBox="0 0 16 16">
+                    <path
+                      d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5" />
+                    <path
+                      d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
+                  </svg>
+                  Black Lagoon: The Second Bar...
+                </p>
+              </div>
+              <!-- Comment Card 8 -->
+              <div
+                class="min-w-[260px] max-w-[280px] h-[15.5rem] rounded-xl bg-[#2a2a2a] p-4 text-white flex flex-col justify-between flex-shrink-0">
+                <div class="space-y-2">
+                  <div class="flex items-center gap-2">
+                    <img src="/Assets/Images/Avartar/user_8.jpg" class="w-8 h-8 rounded-full" alt="">
+                    <div>
+                      <p class="font-semibold">maurian</p>
+                      <p class="text-xs text-gray-400">17 minutes ago</p>
+                    </div>
+                  </div>
+                  <p class="text-sm">No way trained soldiers are getting out smarted by kids ♥</p>
+                </div>
+                <p class="text-blue-400 text-sm flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-file-earmark-text" viewBox="0 0 16 16">
+                    <path
+                      d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5" />
+                    <path
+                      d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
+                  </svg>
+                  Black Lagoon: The Second Bar...
+                </p>
+              </div>
+              <!-- More comment cards -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class=" overflow-hidden py-10 px-4 text-white bg-white dark:bg-black" id="anime-feat">
+    <div class="container mx-auto">
+      <h2 class="text-3xl font-bold text-purple-600 mb-8 text-center">Anime Featured</h2>
+      <div id="anime-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <!-- JS will inject category columns here -->
+      </div>
+    </div>
+  </section>
+  <section class="last-ep p-6 bg-gray-100 dark:bg-black text-gray-800 dark:text-white overflow-hidden">
+    <div class="flex flex-col md:flex-row gap-6">
+      <!-- Main Content -->
+      <div class="py-10 px-4 bg-white dark:bg-gray-900 text-white">
+        <h2 class="text-2xl font-bold text-purple-400 mb-6">Latest Episodes</h2>
+        <div id="latest-episode-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          <!-- Cards injected by JS -->
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="w-full md:w-64">
+        <!-- Genres -->
+        <div class="bg-gray-200 dark:bg-gray-800 p-4 rounded shadow mb-6">
+          <h3 class="text-lg font-semibold text-purple-500 mb-3">Genres</h3>
+
+          <div class="grid grid-cols-3 gap-2 text-sm">
+            <!-- Genre Item -->
+            <span
+              class="text-green-500 font-medium hover:bg-gray-700 hover:text-white px-2 py-1 rounded cursor-pointer transition">Action</span>
+            <span
+              class="text-yellow-400 font-medium  hover:bg-gray-700 hover:text-white px-2 py-1 rounded cursor-pointer transition">Adventure</span>
+            <span
+              class="text-red-500 font-medium  hover:bg-gray-700 hover:text-white px-2 py-1 rounded cursor-pointer transition">Cars</span>
+            <span
+              class="text-purple-400 font-medium  hover:bg-gray-700 hover:text-white px-2 py-1 rounded cursor-pointer transition">Comedy</span>
+            <span
+              class="text-cyan-300 font-medium  hover:bg-gray-700 hover:text-white px-2 py-1 rounded cursor-pointer transition">Dementia</span>
+            <span
+              class="text-red-400 font-medium  hover:bg-gray-700 hover:text-white px-2 py-1 rounded cursor-pointer transition">Demons</span>
+            <span
+              class="text-teal-400 font-medium  hover:bg-gray-700 hover:text-white px-2 py-1 rounded cursor-pointer transition">Drama</span>
+            <span
+              class="text-pink-400 font-medium  hover:bg-gray-700 hover:text-white px-2 py-1 rounded cursor-pointer transition">Ecchi</span>
+            <span
+              class="text-yellow-300 font-medium  hover:bg-gray-700 hover:text-white px-2 py-1 rounded cursor-pointer transition">Fantasy</span>
+            <span
+              class="text-rose-500 font-medium hover:bg-gray-700 hover:text-white px-2 py-1 rounded cursor-pointer transition">Game</span>
+            <span
+              class="text-fuchsia-400 font-medium hover:bg-gray-700 hover:text-white px-2 py-1 rounded cursor-pointer transition">Harem</span>
+            <span
+              class="text-blue-300 font-medium hover:bg-gray-700 hover:text-white px-2 py-1 rounded cursor-pointer transition">Historical</span>
+            <span
+              class="text-red-400 font-medium hover:bg-gray-700 hover:text-white px-2 py-1 rounded cursor-pointer transition">Horror</span>
+            <span
+              class="text-emerald-400 font-medium hover:bg-gray-700 hover:text-white  px-2 py-1 rounded cursor-pointer transition">Isekai</span>
+            <span
+              class="text-lime-300 font-medium hover:bg-gray-700 hover:text-white px-2 py-1 rounded cursor-pointer transition">Josei</span>
+            <span
+              class="text-orange-300 font-medium hover:bg-gray-700 hover:text-white px-2 py-1 rounded cursor-pointer transition">Kids</span>
+            <span
+              class="text-orange-500 font-medium hover:bg-gray-700 hover:text-white px-2 py-1 rounded cursor-pointer transition">Magic</span>
+            <span
+              class="text-indigo-300  font-medium hover:bg-gray-700 hover:text-white px-2 py-1 rounded cursor-pointer transition">Martial
+            </span>
+            <span
+              class="text-indigo-300 font-medium hover:bg-gray-700 hover:text-white px-2 py-1 rounded cursor-pointer transition">Mecha</span>
+            <!-- Active -->
+            <span
+              class="text-rose-300 font-medium hover:bg-gray-700 hover:text-white px-2 py-1 rounded cursor-pointer transition">Military</span>
+            <span
+              class="text-teal-300 font-medium hover:bg-gray-700 hover:text-white px-2 py-1 rounded cursor-pointer transition">Music</span>
+            <span
+              class="text-lime-400 font-medium hover:bg-gray-700 hover:text-white px-2 py-1 rounded cursor-pointer transition">Mystery</span>
+            <span
+              class="text-yellow-500 font-medium hover:bg-gray-700 hover:text-white px-2 py-1 rounded cursor-pointer transition">Parody</span>
+            <span
+              class="text-red-500 font-medium hover:bg-gray-700 hover:text-white px-2 py-1 rounded cursor-pointer transition">Police</span>
+          </div>
+
+          <!-- From Uiverse.io by HarryProCW -->
+          <button
+            class="hover:brightness-110 hover:animate-pulse  font-bold py-2 rounded mt-4 w-full bg-gradient-to-r from-blue-500 to-pink-500 text-white">
+            Show more
+          </button>
+        </div>
+        <!-- From Uiverse.io by Deri-Kurniawan -->
+
+
+
+
+        <div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
+          <div id="topAnimeWidget" class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg w-full max-w-md">
+            <!-- Header -->
+            <h3 class="text-xl font-bold text-purple-600 dark:text-purple-400">Top 10 Anime</h3>
+            <div class="flex justify-between items-center mb-4">
+              <div class="flex gap-2">
+                <button onclick="filterTopAnime('today', this)"
+                  class="top-anime-tab bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-xs px-3 py-1 rounded-full font-medium">Today</button>
+                <button onclick="filterTopAnime('week', this)"
+                  class="top-anime-tab bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-xs px-3 py-1 rounded-full font-medium">Week</button>
+                <button onclick="filterTopAnime('month', this)"
+                  class="top-anime-tab bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-xs px-3 py-1 rounded-full font-medium">Month</button>
+              </div>
+            </div>
+
+            <!-- Anime List -->
+            <div id="topAnimeList" class="space-y-3">
+              <!-- Items will be inserted here by JavaScript -->
+              <div class="text-center py-8 text-gray-500">Loading top anime...</div>
+            </div>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+  </section>
+  <section
+    class="py-6 px-2 sm:py-10 overflow-hidden sm:px-4 bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-300">
+    <div class="container shadow-lg rounded-lg p-4 sm:p-6 bg-white dark:bg-gray-800 mx-auto max-w-7xl">
+      <!-- Theme Toggle Button -->
+      <button id="themeToggle" class="absolute top-4 right-4 p-2 rounded-full bg-gray-200 dark:bg-gray-700">
+        <svg id="sunIcon" class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z">
+          </path>
+        </svg>
+        <svg id="moonIcon" class="w-5 h-5 text-purple-500 hidden" fill="currentColor" viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+        </svg>
+      </button>
+      <div class="top flex flex-row  justify-between items-start sm:items-center gap-2">
+        <h1 class="text-2xl sm:text-3xl font-bold text-purple-600 dark:text-purple-400">Anime Schedule</h1>
+        <!-- Real Time Display -->
+        <div class="text-right text-sm text-white p-2 rounded-lg bg-purple-600 dark:bg-purple-800 ">
+          <span id="currentTime">03:16:05 PM</span>
+        </div>
+      </div>
+      <!-- Date Selector -->
+      <div class="flex items-center justify-between gap-1 sm:gap-2 py-3 sm:py-4 px-1 sm:px-2">
+        <button id="prevBtn"
+          class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white flex items-center justify-center hover:bg-purple-500 hover:text-white transition text-sm sm:text-base">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+            class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+            <path
+              d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
+          </svg>
+        </button>
+        <!-- Days Row - Horizontal scroll on mobile -->
+        <div class="overflow-x-auto sm:overflow-visible w-full">
+          <div id="dateContainer" class="grid grid-cols-7 gap-1 sm:gap-3 min-w-[350px] sm:min-w-0">
+            <!-- Days will be populated by JavaScript -->
+          </div>
+        </div>
+        <button id="nextBtn"
+          class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white flex items-center justify-center hover:bg-purple-500 hover:text-white transition text-sm sm:text-base">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+            class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+            <path
+              d="m12.14 7.247-5.482-4.796c-.646-.566-1.658-.106-1.658.753v9.592a1 1 0 0 0 1.659.753l5.48-4.796a1 1 0 0 0 0-1.506z" />
+          </svg>
+        </button>
+      </div>
+      <!-- Schedule List -->
+      <div class="mt-4 sm:mt-6 space-y-2 sm:space-y-3">
+        <div
+          class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 sm:gap-0 border-b border-gray-200 dark:border-gray-700 pb-2">
+          <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">00:30</span>
+          <span class="text-sm sm:text-base font-medium text-gray-800 dark:text-gray-100">Fire force Season 3</span>
+          <span class="text-xs text-gray-500 dark:text-gray-300">▶ Episode 8</span>
+        </div>
+        <div
+          class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 sm:gap-0 border-b border-gray-200 dark:border-gray-700 pb-2">
+          <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">01:00</span>
+          <span class="text-sm sm:text-base font-medium text-gray-800 dark:text-gray-100">Jujutsu Kaisen Season</span>
+          <span class="text-xs text-gray-500 dark:text-gray-300">▶ Episode 9</span>
+        </div>
+        <div
+          class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 sm:gap-0 border-b border-gray-200 dark:border-gray-700 pb-2">
+          <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">01:30</span>
+          <span class="text-sm sm:text-base font-medium text-gray-800 dark:text-gray-100">Attack on Titan Final
+            Season</span>
+          <span class="text-xs text-gray-500 dark:text-gray-300">▶ Episode 10</span>
+        </div>
+        <div
+          class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 sm:gap-0 border-b border-gray-200 dark:border-gray-700 pb-2">
+          <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">02:00</span>
+          <span class="text-sm sm:text-base font-medium text-gray-800 dark:text-gray-100">My Hero Academia Season
+            6</span>
+          <span class="text-xs text-gray-500 dark:text-gray-300">▶ Episode 11</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer class=" overflow-hidden  text-white py-6 mt-10 shadow-lg">
+    <!-- first row has logo name and icon socail medail -->
+    <div class="logo px-4">
+      <div class="container mx-auto flex  items-center px-4 py-2 " style=" border-bottom: 1px solid #d1d5db;">
+        <div class="flex items-center  border-r p-4 border-gray-200">
+          <img src="/Assets/Images/paimon.jpg" alt="Logo" class="w-10 h-10 rounded-full mr-2">
+          <span class=" font-bold text-purple-400">Onichan</span>
+        </div>
+        <div class="wrapper flex justify-center ">
+          <!-- Discord Icon -->
+          <div
+            class="icon group relative mx-2 w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-lg cursor-pointer transition-all duration-300 hover:bg-[#5865F2]">
+            <a href="https://discord.com/channels/@me">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                class="text-gray-700 group-hover:text-white" viewBox="0 0 16 16">
+                <path
+                  d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612" />
+              </svg>
+              <span
+                class="tooltip absolute top-0 bg-[#5865F2] text-white px-2 py-1 rounded text-sm opacity-0 pointer-events-none transition-all duration-300 group-hover:opacity-100 group-hover:-top-11">
+                Discord
+              </span>
+            </a>
+          </div>
+          <!-- Telegram Icon -->
+          <div
+            class="icon group relative mx-2 w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-lg cursor-pointer transition-all duration-300 hover:bg-[#0088cc]">
+            <a href="https://web.telegram.org/k/">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                class="text-gray-700 group-hover:text-white" viewBox="0 0 16 16">
+                <path
+                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.287 5.906q-1.168.486-4.666 2.01-.567.225-.595.442c-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294q.39.01.868-.32 3.269-2.206 3.374-2.23c.05-.012.12-.026.166.016s.042.12.037.141c-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8 8 0 0 1-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629q.14.092.27.187c.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.4 1.4 0 0 0-.013-.315.34.34 0 0 0-.114-.217.53.53 0 0 0-.31-.093c-.3.005-.763.166-2.984 1.09" />
+              </svg>
+              <span
+                class="tooltip absolute top-0 bg-[#0088cc] text-white px-2 py-1 rounded text-sm opacity-0 pointer-events-none transition-all duration-300 group-hover:opacity-100 group-hover:-top-11">
+                Telegram
+              </span>
+            </a>
+          </div>
+
+          <!-- Instagram Icon -->
+          <div
+            class="icon group relative mx-2 w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-lg cursor-pointer transition-all duration-300 hover:bg-[#E4405F]">
+            <a href="https://www.instagram.com/_ur_sunset/">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                class="text-gray-700 group-hover:text-white" viewBox="0 0 16 16">
+                <path
+                  d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334" />
+              </svg>
+              <span
+                class="tooltip absolute top-0 bg-[#E4405F] text-white px-2 py-1 rounded text-sm opacity-0 pointer-events-none transition-all duration-300 group-hover:opacity-100 group-hover:-top-11">
+                Instagram
+              </span>
+            </a>
+          </div>
+
+          <!-- Facebook Icon -->
+          <div
+            class="icon group relative mx-2 w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-lg cursor-pointer transition-all duration-300 hover:bg-[#1877F2]">
+            <a href="https://www.facebook.com/punleur.ptk.9/">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                class="text-gray-700 group-hover:text-white" viewBox="0 0 16 16">
+                <path
+                  d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951" />
+              </svg>
+              <span
+                class="tooltip absolute top-0 bg-[#1877F2] text-white px-2 py-1 rounded text-sm opacity-0 pointer-events-none transition-all duration-300 group-hover:opacity-100 group-hover:-top-11">
+                Facebook
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- list button from All # 0-9 and A to Z  -->
+    <div class="list-container mt-2">
+      <div class="container mx-auto hidden sm:flex  items-center px-4">
+        <div class=" flex items-center px-2 ms-4 " style=" border-right: 2px solid #d1d5db; ">
+          <h3 class="text-2xl text-gray-400 dark:text-purple-400">A-Z List</h3>
+        </div>
+        <p class="text-gray-500 dark:text-white text-md mx-4">Searching anime order by alphabet name A to Z.
+        </p>
+      </div>
+      <div class="pagination flex flex-wrap justify-center gap-2 my-8">
+        <!-- All Button -->
+        <!-- A-Z Buttons -->
+        <div class="hidden sm:flex flex-wrap  justify-center gap-2">
+          <a href="#"
+            class="px-4 py-2 rounded-md bg-purple-600 text-white font-medium hover:bg-purple-700 transition">ALL</a>
+          <a href="#"
+            class="px-4 py-2 rounded-md bg-purple-600 text-white font-medium hover:bg-purple-700 transition">#</a>
+          <a href="#"
+            class="px-4 py-2 rounded-md bg-purple-600 text-white font-medium hover:bg-purple-700 transition">0-9</a>
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">A</a>
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">B</a>
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">C</a>
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">D</a>
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">E</a>
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">F</a>
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">G</a>
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">H</a>
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">I</a>
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">J</a>
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">K</a>
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">L</a>
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">M</a>
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">N</a>
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">O</a>
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">P</a>
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">Q</a>
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">U</a>
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">R</a>
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">S</a>
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">T</a>
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">U</a>
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">V</a>
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">W</a>
+          <!-- Continue with D-W -->
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">X</a>
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">Y</a>
+          <a href="#"
+            class="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-700 font-medium hover:bg-purple-600 hover:text-white transition">Z</a>
+        </div>
+
+      </div>
+      <div class="footer-link container flex items-center  ">
+        <!-- term contact dmca service App -->
+        <div
+          class="footer-links container mx-auto py-6 px-4 flex flex-wrap items-center justify-between gap-4 border-t border-gray-200 dark:border-gray-700">
+          <!-- Left side links -->
+          <div class="flex flex-wrap items-center gap-4 text-sm">
+            <a href="#"
+              class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition">Terms
+              of Service</a>
+            <span class="text-gray-400">|</span>
+            <a href="#"
+              class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition">Privacy
+              Policy</a>
+            <span class="text-gray-400">|</span>
+            <a href="#"
+              class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition">DMCA</a>
+            <span class="text-gray-400">|</span>
+            <a href="#"
+              class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition">Contact
+              Us</a>
+          </div>
+
+          <!-- Right side links -->
+          <div class="flex flex-wrap items-center gap-4 text-sm">
+            <span class="text-gray-500 dark:text-gray-400">© 2023 AnimeSite</span>
+            <a href="#"
+              class="flex items-center gap-1 text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download"
+                viewBox="0 0 16 16">
+                <path
+                  d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                <path
+                  d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
+              </svg>
+              Mobile App
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>
+<script src="./Lib/JavaScript/slider.js"></script>
+<script src="./Lib/Data/Anime_data.js"></script>
+<script src="./Lib/JavaScript/featured.js"></script>
+<script src="./Lib/JavaScript/last_Episode.js"></script>
+<script src="./Lib/JavaScript/Top_anime.js"></script>

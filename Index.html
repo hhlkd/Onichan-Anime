@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=MuseoModerno:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link rel="stylesheet" href="./Lib/Css/Style.css">
+    <title>AnimeHub</title>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300 min-h-screen" x-data="{
+    darkMode: localStorage.getItem('darkMode') === 'true' || 
+            (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)
+}" x-init="$watch('darkMode', value => {
+    document.documentElement.classList.toggle('dark', value);
+    localStorage.setItem('darkMode', value);
+})" :class="{'dark': darkMode}">
+
+    <!-- Navbar -->
+     <div class="container mx-auto">
+        <div class="navbar w-full">
+            <div class="flex items-center justify-between p-3 bg-transparent dark:bg-transparent backdrop-blur-lg shadow-md fixed top-0 left-0 right-0 z-50 transition-colors duration-300">
+                <div class="logo-side w-80">
+                    <div class="flex items-center">
+                        <div class="menu-container">
+                            <button class="text-gray-600 dark:text-gray-300 hover:text-primary-600 focus:outline-none">
+                                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 6h16M4 12h16m-7 6h7"></path>
+                                </svg>
+                            </button>
+                            <div class="menu-items p-4">
+                                <ul class="space-y-3">
+                                    <li><a href="./Home.html" class="block px-3 py-2 rounded text-gray-800 dark:text-gray-200 hover:bg-purple-100 dark:hover:bg-purple-900 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Home</a></li>
+                                    <li><a href="./Anime.html" class="block px-3 py-2 rounded text-gray-800 dark:text-gray-200 hover:bg-purple-100 dark:hover:bg-purple-900 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Anime</a></li>
+                                    <li><a href="./Manga.html" class="block px-3 py-2 rounded text-gray-800 dark:text-gray-200 hover:bg-purple-100 dark:hover:bg-purple-900 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Manga</a></li>
+                                    <li><a href="./Community.html" class="block px-3 py-2 rounded text-gray-800 dark:text-gray-200 hover:bg-purple-100 dark:hover:bg-purple-900 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Community</a></li>
+                                    <li><a href="./Contact.html" class="block px-3 py-2 rounded text-gray-800 dark:text-gray-200 hover:bg-purple-100 dark:hover:bg-purple-900 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Contact</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="logo mx-8">
+                            <a href="index.html" class="text-2xl font-bold text-gray-800 dark:text-white font-museo">Onichan Anime</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="left-side flex items-center space-x-4 mx-6">
+                    <!-- Dark mode toggle -->
+                    <button @click="darkMode = !darkMode"
+                        class="dark-mode-toggle relative h-10 w-10 rounded-full bg-gray-200/80 dark:bg-gray-700/80 transition-colors duration-300 focus:outline-none backdrop-blur-sm">
+                        <!-- Moon icon (shown in light mode) -->
+                        <svg x-show="!darkMode" xmlns="http://www.w3.org/2000/svg"
+                            class="h-6 w-6 text-gray-700 absolute inset-0 m-auto" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                        <!-- Sun icon (shown in dark mode) -->
+                        <svg x-show="darkMode" xmlns="http://www.w3.org/2000/svg"
+                            class="h-6 w-6 text-gray-300 absolute inset-0 m-auto" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                    </button>
+
+                    <div class="sign-in mx-4">
+                        <button class="purple-button">Sign In</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section with Video Background -->
+    <section class="hero relative h-screen flex items-center justify-center overflow-hidden">
+    <!-- image Background -->
+    <div class="absolute inset-0">
+        <img src="/Assets/Images/HomeBg.png" alt="Hero Background"
+            class="w-full h-full object-cover object-center transition-opacity duration-300">
+    </div>
+
+
+    <!-- Dark overlay for better text visibility -->
+    <div class="absolute inset-0 bg-black/30 dark:bg-black/50"></div>
+
+    <!-- Content Container -->
+    <div class="hero-content relative z-10 text-center px-4 sm:px-6 lg:px-8 w-full max-w-7xl mx-auto">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-white">Welcome to Onichan Anime</h1>
+        <p class="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 text-white/90">Your ultimate destination for anime streaming and community.</p>
+
+        <div class="search-bar max-w-2xl mx-auto relative">
+            <input type="text" placeholder="Search for your favorite anime..."
+                class="w-full p-3 sm:p-4 rounded-lg bg-white/90 dark:bg-gray-800/90 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-300 text-sm sm:text-base">
+            <button class="absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 text-purple-600 dark:text-purple-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-6.5-6.5m2.5-4.5a7.5 7.5 0 11-15 0 7.5 7.5 0 0115 0z" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="mt-8 sm:mt-10">
+            <a href="./Home.html" class="cta-button inline-block px-6 py-3 sm:px-8 sm:py-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors duration-300 text-sm sm:text-base">Explore Anime Now</a>
+        </div>
+    </div>
+</section>
+</body>
+
+</html>
